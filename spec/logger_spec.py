@@ -33,6 +33,10 @@ class TestLogger(unittest.TestCase):
         log_file_content = open("python_log").read()
         log_file_content |should| include("a message to stdout")
 
+    def it_raises_an_exception_with_a_invalid_log_file(self):
+        def foo(): self.logger.file = 1
+        foo |should| throw(InvalidLogFile)
+
 
 if __name__ == "__main__":
     unittest.main()
