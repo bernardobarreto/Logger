@@ -1,7 +1,7 @@
 import unittest
 import subprocess
 from should_dsl import should
-from logger import Logger, ChangeStdout, InvalidLogFile
+from logger import Logger, InvalidLogFile, InvalidLogMethod, InvalidOperation
 
 
 class TestLogger(unittest.TestCase):
@@ -19,12 +19,20 @@ class TestLogger(unittest.TestCase):
         self.logger.file = 'testing_logger'
         self.logger.file |should| equal_to('testing_logger')
 
+    def it_raises_an_exception_with_a_invalid_log_file(self):
+        def foo(): self.logger.file = 1
+        foo |should| throw(InvalidLogFile)
+
     def it_has_a_writing_method(self):
         self.logger.method |should| equal_to('a')
 
     def it_allows_change_the_writing_method(self):
         self.logger.method = 'w'
         self.logger.method |should| equal_to('w')
+
+    def it_raises_an_exception_with_a_invalid_log_method(self):
+        def bar(): self.logger.method = 'x'
+        bar |should| throw(InvalidLogMethod)
 
     def it_writes_stdout_to_the_log_file(self):
         self.logger.start_log()
@@ -33,9 +41,8 @@ class TestLogger(unittest.TestCase):
         log_file_content = open("python_log").read()
         log_file_content |should| include("a message to stdout")
 
-    def it_raises_an_exception_with_a_invalid_log_file(self):
-        def foo(): self.logger.file = 1
-        foo |should| throw(InvalidLogFile)
+    def it_raises_an_exception_when_stop_log_before_start_it(self):
+        self.logger.stop_log |should| throw(InvalidOperation)
 
 
 if __name__ == "__main__":
