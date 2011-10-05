@@ -17,7 +17,7 @@ class Logger(object):
         if type(new_file) is str:
             self._file = new_file
         else:
-            raise InvalidLogFile("need string, %s found" %(type(new_file)))
+            raise ValueError("need string, %s found" %(type(new_file)))
 
     @property
     def method(self):
@@ -28,7 +28,7 @@ class Logger(object):
         if new_method in ['a','w']:
             self._method = new_method
         else:
-            raise InvalidLogMethod("avaible methods: 'a' and 'w', got %s" %(new_method))
+            raise ValueError("avaible methods: 'a' and 'w', got %s" %(new_method))
 
     def start_log(self):
         self.old_stdout = sys.stdout
@@ -54,14 +54,6 @@ class _ChangeStdout(object):
         self.log_file = open(self.log, self.method)
         self.log_file.write("\n%s" %(msg))
         self.log_file.close()
-
-
-class InvalidLogFile(Exception):
-    pass
-
-
-class InvalidLogMethod(Exception):
-    pass
 
 
 class InvalidOperation(Exception):

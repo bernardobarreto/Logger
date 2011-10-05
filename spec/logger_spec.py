@@ -1,7 +1,7 @@
 import unittest
 import subprocess
 from should_dsl import should
-from logger import Logger, InvalidLogFile, InvalidLogMethod, InvalidOperation
+from logger import Logger, InvalidOperation
 
 
 class TestLogger(unittest.TestCase):
@@ -21,7 +21,7 @@ class TestLogger(unittest.TestCase):
 
     def it_raises_an_exception_with_a_invalid_log_file(self):
         def foo(): self.logger.file = 1
-        foo |should| throw(InvalidLogFile)
+        foo |should| throw(ValueError)
 
     def it_has_a_writing_method(self):
         self.logger.method |should| equal_to('a')
@@ -32,7 +32,7 @@ class TestLogger(unittest.TestCase):
 
     def it_raises_an_exception_with_a_invalid_log_method(self):
         def bar(): self.logger.method = 'x'
-        bar |should| throw(InvalidLogMethod)
+        bar |should| throw(ValueError)
 
     def it_writes_stdout_to_the_log_file(self):
         self.logger.start_log()
