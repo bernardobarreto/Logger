@@ -1,12 +1,20 @@
 Logger
-------
+======
 
 Log your actions in python interactive shell.
 
+Important
+---------
+It doesn't play well with ipython just with python itself.
+
 Usage:
+------
+```python
+from logger import *
+logger = Logger()
+logger.start_log()
 
-Logger.start_log()
+print 'foooo'  # the print output goes to the defined file (default: "python_log")
 
-
-
-TODO: Improve this ridiculous README
+logger.stop_log()
+```
